@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GrASPEE</title>
+    <!--Web fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Righteous&display=swap" rel="stylesheet"> 
+    <!--css-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css')}}">
+</head>
+<body>
+    <h1>Adaptive Grading Support for Persuasive English Essays</h1>
+    <form method="POST" class="assignment-info">
+        <label for="assignment-nbr"><h2>Assignment:</h2></label>
+        <input type="text" class="assignment-info" id="assignment-nbr" name="assignment-nbr">
+        <label for="student-name"><h2>Student: </h2></label>
+        <input type="text" class="assignment-info" id="student-name" name="student-name">
+        <div id="assignment-descr">
+            Lorem ipsum dolor sit amet. Et consequatur enim quo earum internos ut ipsa accusantium sit aliquid nemo 33 dolores reprehenderit non repellendus commodi. Sed consectetur enim eos sunt beatae aut autem aspernatur. Ad atque consequuntur eum delectus quibusdam ad sequi ipsa nam voluptas officia et autem voluptas! 
+        </div>
+        <div class="text-submit">
+                <textarea 
+                    type="text" id="assignment-text-body" name="text-body" 
+                    placeholder="Insert your text here..." 
+                    autocomplete="off"></textarea>
+                <div id="submit-btn">
+                    <input type="submit" class="btn" value="Submit">
+                </div>
+        </div>
+    </form>
+
+</body>
+</html>
