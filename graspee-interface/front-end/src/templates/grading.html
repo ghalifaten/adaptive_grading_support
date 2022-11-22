@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GrASPEE</title>
+    <!--Web fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Righteous&display=swap" rel="stylesheet"> 
+    <!--css-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css')}}">
+</head>
+<body>
+    <h1>Grading - View 1</h1>
+    
+    <!-- TODO: Header part goes here-->
+
+    <div class="page-container">
+        <div class="page-item" id="student-list">
+            LIST
+        </div>
+
+        <div class="page-item" id="task-title">
+            <h2>Assignment {{assignment_nbr}} - {{student_name}}</h2>
+        </div>
+
+        <div class="page-item" id="buttons-row">
+            <button class="btn">Grammar check</button>
+            <button class="btn">Argumentation check</button>
+            <button class="btn">Other check</button>
+        </div>
+
+        <div class="page-item" id="buffer1"></div>
+            
+        <div class="page-item" id="assignment-text-body">
+            {{text}}
+        </div>
+
+        <div class="page-item" id="buffer2"></div>
+
+            <form method="POST">
+                <div class="page-item" id="feedback-section">
+
+                    <textarea 
+                    type="text" id="feedback-section" name="feedback-text" 
+                    placeholder="Write your feedback here..." 
+                    autocomplete="off"></textarea>
+         </div>
+
+        <div class="page-item" id="grade-section">
+                <label for="sub-grade-1">Content:</label>
+                <input type="text" id="sub-grade" name="sub-grade-1"><br>
+                <label for="sub-grade-2">Organization:</label>
+                <input type="text" id="sub-grade" name="sub-grade-2"><br>
+                <label for="sub-grade-3">Language:</label>
+                <input type="text" id="sub-grade" name="sub-grade-3"><br>
+                <label for="sub-grade-4">Task achievement:</label>
+                <input type="text" id="sub-grade" name="sub-grade-4"><br>
+                <p style="font-weight:bold; font-size: 25px;">Final grade:{{final_grade}}</p>
+                
+    </div>
+
+    <div class="page-item" id="submit-grade">
+                <input type="submit" value="Submit" id="submit-grade">
+    </div>
+</form>
+
+    </div>
+
+
+</body>
+</html>
