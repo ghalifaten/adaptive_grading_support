@@ -133,7 +133,7 @@ input[type=submit] {
 /***********GRADING-VIEW**************/
 .page-container {
     display: grid;
-    grid-template-columns: [vline1] 10% [vline2] auto [vline3] 14% [vline4] 6% [vline-end];
+    grid-template-columns: [vline1] 10% [vline2] auto [vline3] 20% [vline-end];
     grid-template-rows: [hline1] 5% [hline2] 5% [hline3] 600px [hline4] 15% [hline-end];
     grid-gap: 30px;
     margin-right: 30px;
@@ -220,6 +220,7 @@ textarea#feedback-section {
     grid-row-start: hline4;
     grid-row-end: hline-end;
 
+    padding-top: 50px;
     text-align: right;
 }
 
