@@ -7,7 +7,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Righteous&display=swap" rel="stylesheet"> 
     <!--css-->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css')}}">
+    <!--TODO change css file name-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/styles.css')}}">
 </head>
 <body>
     <h1>Grading - View 1</h1>
@@ -27,7 +28,8 @@
             <button class="btn" 
                     id="check1"
                     onclick="spell_check()">Spelling check</button>
-            <button class="btn">Argumentation check</button>
+            <button class="btn"
+                    onclick="grammar_check()">Grammar check</button>
             <button class="btn">Other check</button>
         </div>
 
@@ -66,7 +68,7 @@
 <script>
   function spell_check() {  
     var str2 = "{{ data.original_text }}"
-    var str1 = "{{ data.correct_text }}"
+    var str1 = "{{ data.spell_correct_text }}"
 
     function words(s) {
       console.log('this is words()')
@@ -100,9 +102,25 @@
     }
   }
 </script>
-<style>
-    .imp{
-      color: red
+<script>
+  function grammar_check(){
+    var dictionary = JSON.parse('{{data.grammar_check_results | tojson}}');
+    console.log(dictionary)
+    var text = "";
+    for (var sentence in dictionary){
+      if (dictionary[sentence] == 0){ //grammarly incorrect
+        text += " <span class='imp'>"+sentence+"</span> ";
+      } else { //grammarly correct
+        text += " "+sentence+" ";
+      }
     }
+    const div = document.getElementById('assignment-text-body')
+    div.innerHTML = text;
+  }
+</script>
+<style>
+  .imp{
+    color: red
+  }
 </style>
 </html>

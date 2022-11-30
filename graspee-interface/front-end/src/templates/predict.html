@@ -23,19 +23,35 @@
     </form>
    <br>
    <br>
-     <p style="font-size: 20px;"><strong>{{ prediction_bert }}</strong></p>
-     <p style="font-size: 20px;"><strong>{{ prediction_ulmfit }}</strong></p>
-
+     <p style="font-size: 20px;"><strong>{{ res_prediction }}</strong></p>
+     <div id="text-body">
+      {{ res_prediction }}
+     </div>
+     <!--
         {% if index == 1%}
         <p style="color:blue">{{sent}}</p>
         {% else %}
         <p style="color:red">{{sent}}</p>
         {% endif %}
+      -->
  </div>
 
 
 </body>
 <script>
+
+var dictionary = JSON.parse('{{res_prediction | tojson}}');
+console.log(dictionary)
+var text = "";
+for (var sentence in dictionary){
+  if (dictionary[sentence] == 0){ //grammarly incorrect
+    text += " <span class='imp'>"+sentence+"</span> ";
+  } else { //grammarly correct
+    text += " "+sentence+" ";
+  }
+}
+const div = document.getElementById('text-body')
+div.innerHTML = text;
 
 function myFunction(){
   console.log('hey');
@@ -48,6 +64,9 @@ function myFunction(){
 }
 </script>
 <style>
+  .imp{
+  color: red
+}
 .loader {
   border: 16px solid #f3f3f3;
   border-radius: 50%;

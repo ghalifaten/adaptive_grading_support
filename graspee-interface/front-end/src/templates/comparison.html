@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GrASPEE</title>
+    <!--Web fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Righteous&display=swap" rel="stylesheet"> 
+    <!--css-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/comparison.css')}}">
+</head>
+<body>
+    <h1>Comparison</h1>
+    
+    <!-- TODO: Header part goes here-->
+    <div class="page-container">
+        <div class="page-item" id="column1">
+            <div class="page-sub-item" id="menu1">
+
+                <input type="button" onclick="ShowFolderFileList()" value="TEST">
+                <select id="filelist">
+
+                </select>
+
+            </div>
+            <div class="page-sub-item" id="text1">
+                Text1
+            </div>
+            <div class="page-sub-item" id="feedback1">
+                Feedback 1
+            </div>
+        </div>
+        <div class="page-item" id="column2">
+            <div class="page-sub-item" id="menu2">
+                Menu déroulant 2
+            </div>
+            <div class="page-sub-item" id="text2">
+                Text2
+            </div>
+            <div class="page-sub-item" id="feedback2">
+                Feedback 2
+            </div>
+        </div>
+    </div>
+    
+
+</body>
+<script type="text/javascript"> 
+    var path = "/home/faten/ml4ed/adaptive_grading_support/graspee-interface/front-end/src/static/data"
+
+
+    function ShowFolderFileList()
+    {
+        console.log("We are inside ShowFolderFileList")
+        var fso, f, fc, s, temp;
+
+        const FileSystemDirectoryEntry = window.FileSystemDirectoryEntry || window.DirectoryEntry;
+        const FileSystemEntry = window.FileSystemEntry || window.Entry;
+
+        console.log(FileSystemDirectoryEntry)
+
+        //console.log(fs.name)
+        /*
+        var fs = null;
+        window.requestFileSystem(window.TEMPORARY, 1024 * 1024, function (filesystem) {
+            fs = filesystem;
+        }, errorHandler);
+
+        fso = new ActiveXObject("Scripting.FileSystemObject");    
+        f = fso.GetFolder(path);
+        fc = new Enumerator(f.files);
+        s = "";
+        temp = "";
+        for (; !fc.atEnd(); fc.moveNext())
+        {
+            temp = fc.item();
+            s = temp.name;
+            document.getElementById('filelist').options[document.getElementById('filelist').options.length] = new Option(s, s);
+            console.log(s)
+        };*/
+    }
+
+</script>
+
+</html>

@@ -2,15 +2,22 @@ from flask import Flask, request, render_template, redirect, url_for
 import os, sys
 import time
 ##################
-import bert
 import neuspell
 from neuspell import BertChecker
+from transformers import BertForSequenceClassification, BertTokenizer
+import bert
 ##################
 
 ########## Language Models #########
 # Initialize spelling check model
 checker = BertChecker()
 checker.from_pretrained()
+
+# Initialize grammar check model
+print('Loading BERT tokenizer...')
+output_dir = '/home/faten/ml4ed/adaptive_grading_support/graspee-interface/front-end/lib/model_bert/'
+model_loaded = BertForSequenceClassification.from_pretrained(output_dir)
+tokenizer = BertTokenizer.from_pretrained(output_dir)
 
 #####################################
 
@@ -41,17 +48,30 @@ def grading():
     student_name = request.args.get('student_name', None)
 
     #Spell check
-    correct_text = checker.correct(original_text)
+    spell_correct_text = checker.correct(original_text)
 
+    #grammar check
+    list_sentences = original_text.split('.')
+    list_sentences = list(filter(None, list_sentences))
+    indices = list(map(lambda sent: bert.bert_checker(model_loaded, tokenizer, sent), list_sentences))
+    indices = list(map(lambda index: index.item(), indices))
+    grammar_check_results = dict(zip(list_sentences, indices))
+    print(grammar_check_results)
+
+    #-------
     data = {
         'student_name':student_name,
         'assignment_nbr':assignment_nbr,
         'original_text':original_text,
-        'correct_text':correct_text
+        'spell_correct_text':spell_correct_text,
+        'grammar_check_results':grammar_check_results
     }
+
     return render_template('grading.html', data=data)
 
-
+@app.route('/comparison')
+def comparison():
+    return render_template('comparison.html')
 
 @app.route('/summary')
 def summary():
@@ -62,6 +82,9 @@ def summary():
     sub_grade_4 = request.args.get('sub_grade_4', None)
     return render_template('summary.html', feedback=feedback, sub_grade_1=sub_grade_1, sub_grade_2=sub_grade_2, sub_grade_3=sub_grade_3, sub_grade_4=sub_grade_4)
 
+
+
+
 @app.route('/predict', methods=['GET','POST'])
 def predict():
     '''
@@ -69,12 +92,20 @@ def predict():
     '''
     if request.method == 'GET':
         return render_template('predict.html')
-        
+    
+    start = time.time()
     inp_string = [x for x in request.form.values()]
     sent = inp_string[0]
-    index = bert.bert_checker(sent)
-    print(index)
-    return render_template('predict.html', sent=sent, index=index.item())
+    list_sentences = sent.split('.')
+    print("list_sentences before = ", list_sentences)
+    list_sentences = list(filter(None, list_sentences))
+    print("list_sentences filtered = ", list_sentences)
+
+    indices = list(map(lambda sent: bert.bert_checker(model_loaded, tokenizer, sent), list_sentences))
+    indices = list(map(lambda index: index.item(), indices))
+    print(time.time()-start)
+    res_prediction = dict(zip(list_sentences, indices))
+    return render_template('predict.html', sent=sent, res_prediction=res_prediction)
 
 
 

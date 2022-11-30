@@ -1,14 +1,7 @@
-from transformers import BertForSequenceClassification
-from transformers import BertTokenizer
 import torch
 
 
-def bert_checker(sent):
-    print('Loading BERT tokenizer...')
-    # Path of the directory where we will have all the saved model.
-    output_dir = '../lib/model_bert/'
-    model_loaded = BertForSequenceClassification.from_pretrained(output_dir)
-    tokenizer = BertTokenizer.from_pretrained(output_dir)
+def bert_checker(model_loaded, tokenizer, sent):
     encoded_dict = tokenizer.encode_plus(
         sent,  # Sentence to encode.
         add_special_tokens=True,  # Add '[CLS]' and '[SEP]'
