@@ -1,7 +1,0 @@
-0 => Claim
-1 => Concluding Statement
-2 => Counterclaim
-3 => Evidence
-4 => Lead
-5 => Position
-6 => Rebuttal

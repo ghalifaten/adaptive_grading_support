@@ -172,6 +172,7 @@ input[type=submit] {
 }
 
 .page-item#student-list{
+    /*border: 2px solid gray;*/
     grid-column-start: vline1;
     grid-column-end: vline2;
     grid-row-start: hline1;

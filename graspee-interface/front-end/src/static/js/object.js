@@ -2,9 +2,11 @@
 // student
 // submission
 
-class submission {
-    constructor(text, feedback) {
+class Submission {
+    constructor(author, text, feedback, grade) {
+        this.author = author;
         this.text = text;
         this.feedback = feedback;
+        this.grade = grade;
     }
 }

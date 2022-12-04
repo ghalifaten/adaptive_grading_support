@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html>
+    <script src="{{ url_for('static', filename='js/object.js')}}"></script>
+    <script>
+        item = []
+        localStorage.setItem('submissions', JSON.stringify(item) );
+    </script>
 <head>
     <title>GrASPEE</title>
     <!--Web fonts-->
@@ -26,11 +31,21 @@
                     placeholder="Insert your text here..." 
                     autocomplete="off"></textarea>
                 <div id="submit-btn">
-                    <input type="submit" class="btn" value="Submit">
+                    <input type="submit" class="btn" value="Submit" onclick="createSubmission()">
                 </div>
                 <!--TODO create submission object here-->
         </div>
     </form>
-
 </body>
+<script>
+    function createSubmission(){
+        const assignment_id = document.getElementById('assignment-nbr').value
+        const author = document.getElementById('student-name').value
+        const text = document.getElementById('assignment-text-body').value
+        var submissions = JSON.parse(window.localStorage.getItem('submissions'));
+        submissions.push({'submission_id': 1,'assignment_id':assignment_id, 'author':author, 'text':text, 'feedback':null, 'grade':null})
+        console.log(submissions)
+        window.localStorage.setItem('submissions', JSON.stringify(submissions));
+    }
+</script>
 </html>
