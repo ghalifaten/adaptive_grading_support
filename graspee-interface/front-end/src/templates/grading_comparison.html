@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GrASPEE</title>
+    <!--Web fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Righteous&display=swap" rel="stylesheet"> 
+    <!--icons-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--css-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/grading_comparison.css')}}">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+</head>
+<body>
+    <h1>Grading</h1>
+    
+    <!-- TODO: Header part goes here-->
+
+    <div class="page-container">
+        <div class="page-item" id="student-list-icon">
+          <i class="fa fa-bars" style="font-size:35px; margin-left: 10px; color:black; text-shadow:2px 2px 4px grey;" ></i>
+        </div>
+
+        <div class="page-item" id="student-list">
+          <ul id="list">
+            <li id="Faith-Hayes" onclick="getText('Faith-Hayes')">Faith Hayes</li>
+            <li id="Hayden-Scott" onclick="getText('Hayden-Scott')">Hayden Scott</li>
+            <li id="Iris-Rose" onclick="getText('Iris-Rose')">Iris Rose</li>
+            <li id="Tony-Rhodes" onclick="getText('Tony-Rhodes')">Tony Rhodes</li>
+          </ul>
+        </div>
+
+        <div class="page-item" id="task-title">
+            <h2>Assignment 1</h2>
+        </div>
+
+        <div class="page-item" id="buttons-row">
+            <button class="btn" 
+                    id="check1"
+                    onclick="spell_check()">Spelling check</button>
+            <button class="btn"
+                    onclick="grammar_check()">Grammar check</button>
+            <button class="btn">Other check</button>
+        </div>
+
+        <div class="page-item" id="compare-student-select">
+          <select id="student-select" onchange="get_comparison()">
+            <option value="">--Select a student--</option>
+            <option value="Faith-Hayes">Faith Hayes</option>
+            <option value="Hayden-Scott">Hayden Scott</option>
+            <option value="Iris-Rose">Iris Rose</option>
+            <option value="Tony-Rhodes">Tony Rhodes</option>
+          </select>
+
+        </div>
+
+        <div class="page-item" id="metrics">
+          <span style='font-weight:bold; font-size: 25px;'>Spelling:</span> <br>
+          <span style='font-weight:bold; font-size: 25px;'>Grammar:</span><br>
+          <span style='font-weight:bold; font-size: 25px;'>Argumentation:</span>
+          <p id="spelling-mistakes"></p>
+        </div>
+
+        <div class="page-item" id="compare-metrics">
+          
+        </div>
+
+            
+        <div class="page-item" id="assignment-text-body">
+            
+        </div>
+
+        <div class="page-item" id="compare-text-body">
+
+        </div>
+
+        
+        <div class="page-item" id="feedback-section">
+            <textarea 
+            type="text" id="feedback-section" name="feedback-text" 
+            placeholder="Write your feedback here..." 
+            autocomplete="off"></textarea>
+        </div>
+
+      
+        <div class="page-item" id="grade-section">
+          <form method="POST">
+            <div class="horizontal">
+              <div style="margin-left: 23px;" id="content">
+                <label for="sub-grade-1">Content:</label>
+                <input type="text" id="sub-grade" name="sub-grade-1">
+              </div>
+              <div style="margin-left: 48px;" id="organization"-->
+                <label for="sub-grade-2">Organization:</label>
+                <input type="text" id="sub-grade" name="sub-grade-2">
+              </div>
+              <p style="font-weight:bold; font-size: 25px; margin-left: 100px;">Final grade:{{final_grade}}</p>
+            </div>
+
+            <div class="horizontal">
+              <div id="language">
+                <label for="sub-grade-3">Language:</label>
+                <input type="text" id="sub-grade" name="sub-grade-3">
+              </div>
+              <div id="task-achievement">
+                <label for="sub-grade-4">Task achievement:</label>
+                <input type="text" id="sub-grade" name="sub-grade-4">
+              </div>
+              <div style="margin-left: 100px;" id="submit-button">
+                <input type="submit" value="Submit" id="submit-grade">
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="page-item" id="compare-feedback">
+          
+        </div>
+
+        <div class="page-item" id="compare-grade">
+          
+        </div>
+
+    </div>
+
+</body>
+
+<script src="{{ url_for('static', filename='js/comparison.js')}}"></script>
+
+<script>
+  function spell_check() {  }
+</script>
+
+<script>
+  function grammar_check(){}
+</script>
+
+<style>
+  .imp{
+    color: red
+  }
+</style>
+
+</html>

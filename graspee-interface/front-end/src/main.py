@@ -4,8 +4,8 @@ import time
 ##################
 import neuspell
 from neuspell import BertChecker
-from transformers import BertForSequenceClassification, BertTokenizer
-import bert
+#from transformers import BertForSequenceClassification, BertTokenizer
+#import bert
 ##################
 
 ########## Language Models #########
@@ -14,10 +14,10 @@ checker = BertChecker()
 checker.from_pretrained()
 
 # Initialize grammar check model
-print('Loading BERT tokenizer...')
-output_dir = '/home/faten/ml4ed/adaptive_grading_support/graspee-interface/front-end/lib/model_bert/'
-model_loaded = BertForSequenceClassification.from_pretrained(output_dir)
-tokenizer = BertTokenizer.from_pretrained(output_dir)
+#print('Loading BERT tokenizer...')
+#output_dir = '/home/faten/ml4ed/adaptive_grading_support/graspee-interface/front-end/lib/model_bert/'
+#model_loaded = BertForSequenceClassification.from_pretrained(output_dir)
+#tokenizer = BertTokenizer.from_pretrained(output_dir)
 
 #####################################
 
@@ -35,6 +35,7 @@ def index():
 
 @app.route('/grading', methods=['GET', 'POST'])
 def grading():
+    """ 
     if  request.method == 'POST':
         feedback = request.form['feedback-text']
         sub_grade_1 = request.form['sub-grade-1']
@@ -66,7 +67,7 @@ def grading():
         'spell_correct_text':spell_correct_text,
         'grammar_check_results':grammar_check_results
     }
-
+    """
     return render_template('grading.html', data=data)
 
 @app.route('/comparison')
@@ -107,7 +108,10 @@ def predict():
     res_prediction = dict(zip(list_sentences, indices))
     return render_template('predict.html', sent=sent, res_prediction=res_prediction)
 
-
+###############
+@app.route('/grading-comparison')
+def grade_compare():
+    return render_template("grading_comparison.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
