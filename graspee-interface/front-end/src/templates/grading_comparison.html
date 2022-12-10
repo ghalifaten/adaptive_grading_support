@@ -131,11 +131,11 @@
 <script src="{{ url_for('static', filename='js/comparison.js')}}"></script>
 
 <script>
+  let clicked = 1
   function spell_check() {
     const text_element = document.getElementById("assignment-text-body")
     let text_element_html = text_element.innerHTML
     const original_text = text_element.innerText
-
     $.ajax({
             url: location.origin + "/grading-comparison",
             type: 'POST',
@@ -145,27 +145,32 @@
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
-              var original_text = JSON.stringify(response.original_text);
-              var misspelled_words = response.misspelled_words; //array
+                    var misspelled_words = response.misspelled_words; //array
 
-              function hightlightSearchResult() {
-                  let pattern = '';
-                  for (var w in misspelled_words)
-                    pattern += misspelled_words[w]+'|';
-                  
-                  let regex_object = new RegExp(pattern, 'gi');
+                    function hightlightSearchResult() {
+                        let pattern = '';
+                        for (var w in misspelled_words)
+                          pattern += misspelled_words[w]+'|';
+                        
+                        let regex_object = new RegExp(pattern, 'gi');
 
-                  if (misspelled_words.length > 0){
-                    text_element.innerHTML = text_element_html.replace(regex_object, `<span class='misspell'>$&</span>`);
-                  }else{
-                    text_element.innerHTML = text_element_html;
-                  }
-              }
-              
-              hightlightSearchResult()
+                        if (misspelled_words.length > 0){
+                          text_element.innerHTML = text_element_html.replace(regex_object, `<span style="color: red;">$&</span>`);
+                        }else{
+                          text_element.innerHTML = text_element_html;
+                        }
+                    }
+
+                    if (clicked == 1) {
+                      hightlightSearchResult()
+                      clicked = 0
+                    } else {
+                      text_element.innerHTML = '<span style="color: black;" >' + original_text + '</span>'
+                      clicked = 1
+                    }
             },
             error: function (response) {
-              alert("error")
+              alert("Error!")
             }
         });
     }

@@ -140,7 +140,6 @@ def grade_compare():
 
         #-------
         data = {
-            'original_text': wrong,
             'misspelled_words': misspelled_words,
         }
         return jsonify(data)
