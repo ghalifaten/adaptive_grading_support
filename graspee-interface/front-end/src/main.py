@@ -1,6 +1,7 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, jsonify
 import os, sys
 import time
+import math
 ##################
 import neuspell
 from neuspell import BertChecker
@@ -109,9 +110,42 @@ def predict():
     return render_template('predict.html', sent=sent, res_prediction=res_prediction)
 
 ###############
-@app.route('/grading-comparison')
+@app.route('/grading-comparison', methods=['GET', 'POST'])
 def grade_compare():
-    return render_template("grading_comparison.html")
+    if request.method == 'GET':
+        return render_template("grading_comparison.html")
+
+    if request.method == 'POST':
+        #Spell check
+        wrong = request.get_json()['original_text']
+        correct = checker.correct(wrong)
+        print(correct)
+
+        def uncommonWords(wrong, correct):
+            count = {}
+            # insert words of string A to hash
+            for word in wrong.split():
+                count[word] = count.get(word, 0) + 1
+
+            # insert words of string B to hash
+            for word in correct.split():
+                count[word] = count.get(word, 0) - math.inf
+
+            # return required list of words
+            print(count)
+            return [word for word in count if count[word] > 0 ]
+
+
+        misspelled_words = uncommonWords(wrong, correct)
+        print(misspelled_words)
+
+        #-------
+        data = {
+            'original_text': wrong,
+            'misspelled_words': misspelled_words,
+        }
+        return jsonify(data)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
