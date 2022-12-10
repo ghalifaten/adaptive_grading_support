@@ -61,7 +61,6 @@
           <span style='font-weight:bold; font-size: 25px;'>Spelling:</span> <br>
           <span style='font-weight:bold; font-size: 25px;'>Grammar:</span><br>
           <span style='font-weight:bold; font-size: 25px;'>Argumentation:</span>
-          <p id="spelling-mistakes"></p>
         </div>
 
         <div class="page-item" id="compare-metrics">
@@ -136,6 +135,7 @@
     const text_element = document.getElementById("assignment-text-body")
     let text_element_html = text_element.innerHTML
     const original_text = text_element.innerText
+    const text_length = original_text.length
     $.ajax({
             url: location.origin + "/grading-comparison",
             type: 'POST',
@@ -146,7 +146,7 @@
             dataType: "json",
             success: function (response) {
                     var misspelled_words = response.misspelled_words; //array
-
+                    var mistakes_count = misspelled_words.length
                     function hightlightSearchResult() {
                         let pattern = '';
                         for (var w in misspelled_words)
@@ -154,7 +154,7 @@
                         
                         let regex_object = new RegExp(pattern, 'gi');
 
-                        if (misspelled_words.length > 0){
+                        if (mistakes_count > 0){
                           text_element.innerHTML = text_element_html.replace(regex_object, `<span style="color: red;">$&</span>`);
                         }else{
                           text_element.innerHTML = text_element_html;
@@ -163,6 +163,13 @@
 
                     if (clicked == 1) {
                       hightlightSearchResult()
+                      document.getElementById("metrics").innerHTML = 
+                                    "<span style='font-weight:bold; font-size: 25px;'>Spelling: </span> "+
+                                    (mistakes_count/text_length*100).toFixed(2) + '%.'
+                                    +"<br>\
+                                    <span style='font-weight:bold; font-size: 25px;'>Grammar:</span><br>\
+                                    <span style='font-weight:bold; font-size: 25px;'>Argumentation:</span>"
+                                  
                       clicked = 0
                     } else {
                       text_element.innerHTML = '<span style="color: black;" >' + original_text + '</span>'
