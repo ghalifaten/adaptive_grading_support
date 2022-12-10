@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, redirect, url_for, jsonify
 import os, sys
 import time
 import math
+import re
 ##################
 import neuspell
 from neuspell import BertChecker
@@ -118,8 +119,9 @@ def grade_compare():
     if request.method == 'POST':
         #Spell check
         wrong = request.get_json()['original_text']
+
+        wrong, n = re.subn('[.,;:!?(){\}<>"-*@+]', ' ', wrong.lower())
         correct = checker.correct(wrong)
-        print(correct)
 
         def uncommonWords(wrong, correct):
             count = {}
@@ -132,12 +134,9 @@ def grade_compare():
                 count[word] = count.get(word, 0) - math.inf
 
             # return required list of words
-            print(count)
             return [word for word in count if count[word] > 0 ]
 
-
         misspelled_words = uncommonWords(wrong, correct)
-        print(misspelled_words)
 
         #-------
         data = {

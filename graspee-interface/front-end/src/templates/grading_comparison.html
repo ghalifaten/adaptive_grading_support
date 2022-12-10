@@ -148,9 +148,6 @@
               var original_text = JSON.stringify(response.original_text);
               var misspelled_words = response.misspelled_words; //array
 
-              console.log("original_text = ", original_text)
-              console.log("misspelled_words = ", misspelled_words)
-
               function hightlightSearchResult() {
                   let pattern = '';
                   for (var w in misspelled_words)
@@ -159,45 +156,13 @@
                   let regex_object = new RegExp(pattern, 'gi');
 
                   if (misspelled_words.length > 0){
-                    text_element.innerHTML = text_element_html.replace(regex_object, `<mark>$&</mark>`);
+                    text_element.innerHTML = text_element_html.replace(regex_object, `<span class='misspell'>$&</span>`);
                   }else{
                     text_element.innerHTML = text_element_html;
                   }
               }
               
               hightlightSearchResult()
-
-
-
-
-              /**************************************************
-
-              function words(s) {
-                return s.match(/\w+|\w+[.,;:"!?'\-]|[.,;:"!?'\-]/g);
-              }
-            
-              let a = words(str1);
-              let b = words(str2);
-              let res1 = b.filter(i => !a.includes(i));
-              let res2 = a.filter(i => !b.includes(i));
-
-              highlight(b, "str2", res1);
-            
-              function highlight(str, id, res){
-                var text = "";
-                var mistakes_count = 0;
-              for(var i=0; i<str.length; i++){
-                var hasVal = res.includes(str[i]);
-                if(hasVal){
-                  text +="<span class='imp'>"+str[i]+"</span>";
-                  mistakes_count += 1;
-                } else {
-                  text +=" "+str[i]+" ";
-                }
-              }
-                document.getElementById('assignment-text-body').innerHTML = text;
-                document.getElementById('metrics').innerHTML = "Percentage of misspelled words: " + (mistakes_count/b.length*100).toFixed(2) + "%.";
-              }*/
             },
             error: function (response) {
               alert("error")
@@ -211,7 +176,7 @@
 </script>
 
 <style>
-  .imp{
+  .misspell{
     color: red
   }
 </style>
