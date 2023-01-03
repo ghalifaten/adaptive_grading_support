@@ -13,15 +13,17 @@ from transformers import pipeline
 
 ########## Language Models #########
 # Initialize spelling check model
+print('\nLoading spelling checker...\n')
 checker = BertChecker()
 checker.from_pretrained()
 
 # Initialize grammar check model
-print('Loading BERT tokenizer...')
+print('\nLoading BERT model and tokenizer...\n')
 tokenizer = BertTokenizer.from_pretrained("fatenghali/bert-tokenizer")
 model_loaded = BertForSequenceClassification.from_pretrained("fatenghali/bert-grammar-checker")
 
 # Initialize pipeline for the argumentation check (text classification model)
+print('\nLoading argumentation check model...\n')
 text_classifier = pipeline("sentiment-analysis", model="fatenghali/text_classification_model")
 
 #####################################
@@ -103,13 +105,10 @@ def predict():
     inp_string = [x for x in request.form.values()]
     sent = inp_string[0]
     list_sentences = sent.split('.')
-    print("list_sentences before = ", list_sentences)
     list_sentences = list(filter(None, list_sentences))
-    print("list_sentences filtered = ", list_sentences)
 
     indices = list(map(lambda sent: bert.bert_checker(model_loaded, tokenizer, sent), list_sentences))
     indices = list(map(lambda index: index.item(), indices))
-    print(time.time()-start)
     res_prediction = dict(zip(list_sentences, indices))
     return render_template('predict.html', sent=sent, res_prediction=res_prediction)
 
@@ -146,13 +145,12 @@ def grade_compare():
         """
         Grammar check
         """
-        print("\nGrammar check\n")
         sentences = original_text.split('. ')
         sentences = list(filter(None, sentences))
         indices = list(map(lambda sent: bert.bert_checker(model_loaded, tokenizer, sent), sentences))
         indices = list(map(lambda index: index.item(), indices))
-        grammar_check_results = dict(zip(sentences, indices))
-        print("\n",grammar_check_results,"\n")
+
+        grammar_check_results = [(sentences[i], indices[i]) for i in range(0, len(sentences))] #merge sentences and corresponding indices in list of tuples to keep order of sentences when sent to JavaScript
 
         """
         Argumentation check

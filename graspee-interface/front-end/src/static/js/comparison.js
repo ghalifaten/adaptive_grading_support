@@ -85,7 +85,7 @@ function getText(student_id){
     document.getElementById("assignment-text-body").innerHTML = texts[student_id]
     }
 
-function get_comparison() {
+function getComparison() {
     var student = document.getElementById("student-select").value;
     document.getElementById("compare-text-body").innerHTML = texts[student]
     document.getElementById("compare-feedback").innerHTML = "<div style='height: 100%; width: 100%; background-color: antiquewhite; border: 1px solid lightgray; border-radius: 6px; padding: 5px;'>" + feedbacks[student] + "</div>"

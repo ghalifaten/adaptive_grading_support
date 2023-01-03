@@ -40,15 +40,15 @@
         <div class="page-item" id="buttons-row">
             <button class="btn" 
                     id="check1"
-                    onclick="spell_check()">Spelling check</button>
+                    onclick="spellCheck()">Spelling check</button>
             <button class="btn"
-                    onclick="grammar_check()">Grammar check</button>
+                    onclick="grammarCheck()">Grammar check</button>
             <button class="btn"
-                    onclick="arg_check()">Argumentation check</button>
+                    onclick="argCheck()">Argumentation check</button>
         </div>
 
         <div class="page-item" id="compare-student-select">
-          <select id="student-select" onchange="get_comparison()">
+          <select id="student-select" onchange="getComparison()">
             <option value="">--Select a student--</option>
             <option value="Faith-Hayes">Faith Hayes</option>
             <option value="Hayden-Scott">Hayden Scott</option>
@@ -59,9 +59,9 @@
         </div>
 
         <div class="page-item" id="metrics">
-          <span style='font-weight:bold; font-size: 25px;'>Spelling:</span> <br>
-          <span style='font-weight:bold; font-size: 25px;'>Grammar:</span><br>
-          <span style='font-weight:bold; font-size: 25px;'>Argumentation:</span>
+          <div id="metrics-spelling"><span style='font-weight:bold; font-size: 25px;'>Spelling:</span></div>
+          <div id="metrics-grammar"><span style='font-weight:bold; font-size: 25px;'>Grammar:</span></div>
+          <div id="metrics-argumentation"><span style='font-weight:bold; font-size: 25px;'>Argumentation:</span></div>
         </div>
 
         <div class="page-item" id="compare-metrics">
@@ -131,60 +131,46 @@
 <script src="{{ url_for('static', filename='js/comparison.js')}}"></script>
 
 <script>
-  let sp_clicked = 1
-  function spell_check() {
-    const text_element = document.getElementById("assignment-text-body")
-    let text_element_html = text_element.innerHTML
-    const original_text = text_element.innerText
-    const text_length = original_text.length
+  let spBtnClicked = 1
+  function spellCheck() {
+    const textElement = document.getElementById("assignment-text-body")
+    let textElementHTML = textElement.innerHTML
+    const originalText = textElement.innerText
+    const wordCount = originalText.match(/(\w+)/g).length;
     $.ajax({
             url: location.origin + "/grading-comparison",
             type: 'POST',
             data: JSON.stringify({
-                "original_text": original_text
+                "original_text": originalText
             }),
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
-                    var misspelled_words = response.misspelled_words; //array
-                    var mistakes_count = misspelled_words.length
+                    var misspelledWords = response.misspelled_words; //array
+                    var mistakesCount = misspelledWords.length
                     function hightlightMisspelledWords() {
                         let pattern = '';
-                        for (var w in misspelled_words)
-                          pattern += misspelled_words[w]+'|';
+                        for (var w in misspelledWords)
+                          pattern += misspelledWords[w]+'|';
                         
-                        let regex_object = new RegExp(pattern, 'gi');
+                        let regexObject = new RegExp(pattern, 'gi');
 
-                        if (mistakes_count > 0){
-                          console.log("text_element_html (before replacing with regex)= ", text_element_html)
-                          text_element.innerHTML = text_element_html.replace(regex_object, `<span style="color: red;">$&</span>`);
-                          console.log("regex_object = ", regex_object)
-                          console.log("text_element_html (after replacing with regex)= ", text_element.innerHTML)
-
+                        if (mistakesCount > 0){
+                          textElement.innerHTML = textElementHTML.replace(regexObject, `<span style="color: red;">$&</span>`); 
                         }else{
-                          text_element.innerHTML = text_element_html;
+                          textElement.innerHTML = textElementHTML;
                         }
                     }
 
-                    if (sp_clicked == 1) {
+                    if (spBtnClicked == 1) {
                       hightlightMisspelledWords()
-                      document.getElementById("metrics").innerHTML = 
+                      document.getElementById("metrics-spelling").innerHTML = 
                                     "<span style='font-weight:bold; font-size: 25px;'>Spelling: </span> "+
-                                    (mistakes_count/text_length*100).toFixed(2) + '%.'
-                                    +"<br>\
-                                    <span style='font-weight:bold; font-size: 25px;'>Grammar:</span><br>\
-                                    <span style='font-weight:bold; font-size: 25px;'>Argumentation:</span>"
-                      
-                      console.log("clicked == 1", text_element.innerHTML)
-                                  
-                      sp_clicked = 0
+                                    (mistakesCount/wordCount*100).toFixed(2) + '%.'                           
+                      spBtnClicked = 0
                     } else {
-                      text_element.innerHTML = '<span style="color: black;" >' + original_text + '</span>'
-
-                      console.log("clicked == 0 : ", text_element.innerHTML)
-                      console.log("clicked == 0, innerText: ", text_element.innerText)
-
-                      sp_clicked = 1
+                      textElement.innerHTML = originalText 
+                      spBtnClicked = 1
                     }
             },
             error: function (response) {
@@ -195,32 +181,43 @@
 </script>
 
 <script>
-  let gr_clicked = 1
-  function grammar_check(){
-    const text_element = document.getElementById("assignment-text-body")
-    const original_text = text_element.innerText
+  let grBtnClicked = 1
+  function grammarCheck(){
+    const textElement = document.getElementById("assignment-text-body")
+    const originalText = textElement.innerText
     var innerHTMLContent = "";
     $.ajax({
             url: location.origin + "/grading-comparison",
             type: 'POST',
             data: JSON.stringify({
-                "original_text": original_text
+                "original_text": originalText
             }),
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
                     var results = response.grammar_check_results; //array
-                    
                     function hightlightGrammarlyIncorrectSentences() {
-                        console.log("results = ", results)
+                      var faults = 0;
+                      var sentence; var index;
+                      for(var i in results) {
+                        sentence = results[i][0]
+                        index = results[i][1]
+                        if(index == 0) {//grammarly incorrect
+                          innerHTMLContent = innerHTMLContent + '<u style="text-decoration-color: red;">'+sentence+'</u>. '
+                          faults += 1;
+                        } else {
+                          innerHTMLContent = innerHTMLContent + sentence + '. '
+                        }
+                      }
+                      textElement.innerHTML = innerHTMLContent; 
                     }
 
-                    if (gr_clicked == 1) {
+                    if (grBtnClicked == 1) {
                       hightlightGrammarlyIncorrectSentences()
-                      gr_clicked = 0
+                      grBtnClicked = 0
                     } else {
-                      text_element.innerHTML = original_text;
-                      gr_clicked = 1
+                      textElement.innerHTML = originalText;
+                      grBtnClicked = 1
                     }
             },
             error: function (response) {
@@ -231,17 +228,17 @@
 </script>
 
 <script>
-  let arg_clicked = 1;
-  function arg_check(){
-    const text_element = document.getElementById("assignment-text-body")
-    const original_text = text_element.innerText
-    console.log(original_text)
+  let argBtnClicked = 1;
+  function argCheck(){
+    const textElement = document.getElementById("assignment-text-body")
+    const originalText = textElement.innerText
+    console.log(originalText)
     var innerHTMLContent = "";
     $.ajax({
             url: location.origin + "/grading-comparison",
             type: 'POST',
             data: JSON.stringify({
-                "original_text": original_text
+                "original_text": originalText
             }),
             contentType: "application/json",
             dataType: "json",
@@ -257,15 +254,15 @@
                             innerHTMLContent = innerHTMLContent + '<mark style="background-color: yellow;">'+pred['sentence']+'</mark>. '
                           }
                         }
-                      text_element.innerHTML = innerHTMLContent;
+                      textElement.innerHTML = innerHTMLContent;
                     }
 
-                    if (arg_clicked == 1) {
+                    if (argBtnClicked == 1) {
                       hightlightClaimsAndPremises()
-                      arg_clicked = 0
+                      argBtnClicked = 0
                     } else {
-                      text_element.innerHTML = original_text;
-                      arg_clicked = 1
+                      textElement.innerHTML = originalText;
+                      argBtnClicked = 1
                     }
             },
             error: function (response) {
@@ -274,11 +271,5 @@
         });
   }
 </script>
-
-<style>
-  .misspell{
-    color: red
-  }
-</style>
 
 </html>
