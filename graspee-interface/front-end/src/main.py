@@ -8,6 +8,7 @@ import neuspell
 from neuspell import BertChecker
 #from transformers import BertForSequenceClassification, BertTokenizer
 #import bert
+from transformers import pipeline
 ##################
 
 ########## Language Models #########
@@ -20,6 +21,9 @@ checker.from_pretrained()
 #output_dir = '/home/faten/ml4ed/adaptive_grading_support/graspee-interface/front-end/lib/model_bert/'
 #model_loaded = BertForSequenceClassification.from_pretrained(output_dir)
 #tokenizer = BertTokenizer.from_pretrained(output_dir)
+
+# Initialize pipeline for the argumentation check (text classification model)
+text_classifier = pipeline("sentiment-analysis", model="fatenghali/text_classification_model")
 
 #####################################
 
@@ -117,16 +121,17 @@ def grade_compare():
         return render_template("grading_comparison.html")
 
     if request.method == 'POST':
+        original_text = request.get_json()['original_text']
+
         #Spell check
-        wrong = request.get_json()['original_text']
 
-        wrong, n = re.subn('[.,;:!?(){\}<>"-*@+]', ' ', wrong.lower())
-        correct = checker.correct(wrong)
+        text, n = re.subn('[.,;:!?(){\}<>"-*@+]', ' ', original_text.lower())
+        correct = checker.correct(text)
 
-        def uncommonWords(wrong, correct):
+        def uncommonWords(text, correct):
             count = {}
             # insert words of string A to hash
-            for word in wrong.split():
+            for word in text.split():
                 count[word] = count.get(word, 0) + 1
 
             # insert words of string B to hash
@@ -136,11 +141,20 @@ def grade_compare():
             # return required list of words
             return [word for word in count if count[word] > 0 ]
 
-        misspelled_words = uncommonWords(wrong, correct)
+        misspelled_words = uncommonWords(text, correct)
 
+        #argumentation check
+        print("\n************* argumentation check *******************\n")
+        sentences = original_text.split('. ')
+        print("\n",sentences,"\n")
+        predictions = text_classifier(sentences)
+        for pred, sent in zip(predictions, sentences): #append sentences to their labels
+            pred['sentence'] = sent
+        print("************* argumentation check finished *******************")
         #-------
         data = {
             'misspelled_words': misspelled_words,
+            'predictions': predictions,
         }
         return jsonify(data)
 

@@ -43,7 +43,8 @@
                     onclick="spell_check()">Spelling check</button>
             <button class="btn"
                     onclick="grammar_check()">Grammar check</button>
-            <button class="btn">Other check</button>
+            <button class="btn"
+                    onclick="arg_check()">Argumentation check</button>
         </div>
 
         <div class="page-item" id="compare-student-select">
@@ -155,7 +156,11 @@
                         let regex_object = new RegExp(pattern, 'gi');
 
                         if (mistakes_count > 0){
+                          console.log("text_element_html (before replacing with regex)= ", text_element_html)
                           text_element.innerHTML = text_element_html.replace(regex_object, `<span style="color: red;">$&</span>`);
+                          console.log("regex_object = ", regex_object)
+                          console.log("text_element_html (after replacing with regex)= ", text_element.innerHTML)
+
                         }else{
                           text_element.innerHTML = text_element_html;
                         }
@@ -169,10 +174,16 @@
                                     +"<br>\
                                     <span style='font-weight:bold; font-size: 25px;'>Grammar:</span><br>\
                                     <span style='font-weight:bold; font-size: 25px;'>Argumentation:</span>"
+                      
+                      console.log("clicked == 1", text_element.innerHTML)
                                   
                       clicked = 0
                     } else {
                       text_element.innerHTML = '<span style="color: black;" >' + original_text + '</span>'
+
+                      console.log("clicked == 0 : ", text_element.innerHTML)
+                      console.log("clicked == 0, innerText: ", text_element.innerText)
+
                       clicked = 1
                     }
             },
@@ -185,6 +196,51 @@
 
 <script>
   function grammar_check(){}
+</script>
+
+<script>
+  let arg_clicked = 1;
+  function arg_check(){
+    const text_element = document.getElementById("assignment-text-body")
+    const original_text = text_element.innerText
+    console.log(original_text)
+    var innerHTMLContent = "";
+    $.ajax({
+            url: location.origin + "/grading-comparison",
+            type: 'POST',
+            data: JSON.stringify({
+                "original_text": original_text
+            }),
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                    var predictions = response.predictions; //array
+                    var pred;
+                    function hightlightClaimsAndPremises() {
+                        for (var i in predictions){
+                          pred = predictions[i]
+                          if (pred['label'] == "PREMISE") {
+                            innerHTMLContent = innerHTMLContent + '<mark style="background-color: orange;">'+pred['sentence']+'</mark>. '
+                          } else if (pred['label'] == 'CLAIM') {
+                            innerHTMLContent = innerHTMLContent + '<mark style="background-color: yellow;">'+pred['sentence']+'</mark>. '
+                          }
+                        }
+                      text_element.innerHTML = innerHTMLContent;
+                    }
+
+                    if (arg_clicked == 1) {
+                      hightlightClaimsAndPremises()
+                      arg_clicked = 0
+                    } else {
+                      text_element.innerHTML = original_text;
+                      arg_clicked = 1
+                    }
+            },
+            error: function (response) {
+              alert("Error!")
+            }
+        });
+  }
 </script>
 
 <style>
