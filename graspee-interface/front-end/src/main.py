@@ -6,8 +6,8 @@ import re
 ##################
 import neuspell
 from neuspell import BertChecker
-#from transformers import BertForSequenceClassification, BertTokenizer
-#import bert
+from transformers import BertForSequenceClassification, BertTokenizer
+import bert
 from transformers import pipeline
 ##################
 
@@ -17,10 +17,9 @@ checker = BertChecker()
 checker.from_pretrained()
 
 # Initialize grammar check model
-#print('Loading BERT tokenizer...')
-#output_dir = '/home/faten/ml4ed/adaptive_grading_support/graspee-interface/front-end/lib/model_bert/'
-#model_loaded = BertForSequenceClassification.from_pretrained(output_dir)
-#tokenizer = BertTokenizer.from_pretrained(output_dir)
+print('Loading BERT tokenizer...')
+tokenizer = BertTokenizer.from_pretrained("fatenghali/bert-tokenizer")
+model_loaded = BertForSequenceClassification.from_pretrained("fatenghali/bert-grammar-checker")
 
 # Initialize pipeline for the argumentation check (text classification model)
 text_classifier = pipeline("sentiment-analysis", model="fatenghali/text_classification_model")
@@ -123,8 +122,9 @@ def grade_compare():
     if request.method == 'POST':
         original_text = request.get_json()['original_text']
 
-        #Spell check
-
+        """
+        Spelling check
+        """
         text, n = re.subn('[.,;:!?(){\}<>"-*@+]', ' ', original_text.lower())
         correct = checker.correct(text)
 
@@ -143,17 +143,31 @@ def grade_compare():
 
         misspelled_words = uncommonWords(text, correct)
 
-        #argumentation check
-        print("\n************* argumentation check *******************\n")
+        """
+        Grammar check
+        """
+        print("\nGrammar check\n")
         sentences = original_text.split('. ')
-        print("\n",sentences,"\n")
+        sentences = list(filter(None, sentences))
+        indices = list(map(lambda sent: bert.bert_checker(model_loaded, tokenizer, sent), sentences))
+        indices = list(map(lambda index: index.item(), indices))
+        grammar_check_results = dict(zip(sentences, indices))
+        print("\n",grammar_check_results,"\n")
+
+        """
+        Argumentation check
+        """
+
+        sentences = original_text.split('. ')
         predictions = text_classifier(sentences)
         for pred, sent in zip(predictions, sentences): #append sentences to their labels
             pred['sentence'] = sent
-        print("************* argumentation check finished *******************")
+
+
         #-------
         data = {
             'misspelled_words': misspelled_words,
+            'grammar_check_results':grammar_check_results,
             'predictions': predictions,
         }
         return jsonify(data)

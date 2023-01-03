@@ -131,7 +131,7 @@
 <script src="{{ url_for('static', filename='js/comparison.js')}}"></script>
 
 <script>
-  let clicked = 1
+  let sp_clicked = 1
   function spell_check() {
     const text_element = document.getElementById("assignment-text-body")
     let text_element_html = text_element.innerHTML
@@ -148,7 +148,7 @@
             success: function (response) {
                     var misspelled_words = response.misspelled_words; //array
                     var mistakes_count = misspelled_words.length
-                    function hightlightSearchResult() {
+                    function hightlightMisspelledWords() {
                         let pattern = '';
                         for (var w in misspelled_words)
                           pattern += misspelled_words[w]+'|';
@@ -166,8 +166,8 @@
                         }
                     }
 
-                    if (clicked == 1) {
-                      hightlightSearchResult()
+                    if (sp_clicked == 1) {
+                      hightlightMisspelledWords()
                       document.getElementById("metrics").innerHTML = 
                                     "<span style='font-weight:bold; font-size: 25px;'>Spelling: </span> "+
                                     (mistakes_count/text_length*100).toFixed(2) + '%.'
@@ -177,14 +177,14 @@
                       
                       console.log("clicked == 1", text_element.innerHTML)
                                   
-                      clicked = 0
+                      sp_clicked = 0
                     } else {
                       text_element.innerHTML = '<span style="color: black;" >' + original_text + '</span>'
 
                       console.log("clicked == 0 : ", text_element.innerHTML)
                       console.log("clicked == 0, innerText: ", text_element.innerText)
 
-                      clicked = 1
+                      sp_clicked = 1
                     }
             },
             error: function (response) {
@@ -195,7 +195,39 @@
 </script>
 
 <script>
-  function grammar_check(){}
+  let gr_clicked = 1
+  function grammar_check(){
+    const text_element = document.getElementById("assignment-text-body")
+    const original_text = text_element.innerText
+    var innerHTMLContent = "";
+    $.ajax({
+            url: location.origin + "/grading-comparison",
+            type: 'POST',
+            data: JSON.stringify({
+                "original_text": original_text
+            }),
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                    var results = response.grammar_check_results; //array
+                    
+                    function hightlightGrammarlyIncorrectSentences() {
+                        console.log("results = ", results)
+                    }
+
+                    if (gr_clicked == 1) {
+                      hightlightGrammarlyIncorrectSentences()
+                      gr_clicked = 0
+                    } else {
+                      text_element.innerHTML = original_text;
+                      gr_clicked = 1
+                    }
+            },
+            error: function (response) {
+              alert("Error!")
+            }
+        });
+  }
 </script>
 
 <script>

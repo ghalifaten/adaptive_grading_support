@@ -18,8 +18,6 @@ def bert_checker(model_loaded, tokenizer, sent):
     attention_mask = encoded_dict['attention_mask']
     input_id = torch.LongTensor(input_id)
     attention_mask = torch.LongTensor(attention_mask)
-    #print("input_id:", input_id)
-    #print("attention_mask:", attention_mask)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model_loaded = model_loaded.to(device)
     input_id = input_id.to(device)
