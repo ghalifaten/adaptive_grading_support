@@ -20,7 +20,31 @@
     <!-- TODO: Header part goes here-->
 
     <div class="page-container">
-        <div class="page-item" id="student-list-icon">
+                
+      <div class="page-item dropdown-icon-container" id="student-list-icon" onclick="showList(this)">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </div>
+
+      <!--div class="page-item download-btn-container" id="student-list-icon">
+        <i  onclick="myFunction()" 
+            title="Download List"  
+            class="fa fa-bars dropbtn material-icons"
+            style="font-size:35px; margin-left: 10px; color:black; text-shadow:2px 2px 4px grey;" >
+        </i>
+      </div-->
+
+      <div class="page-item dropdown" id="student-list"> <!--id = "myDropdown"-->
+        <ul id="list">
+          <li id="Faith-Hayes" onclick="getText('Faith-Hayes')">Faith Hayes</li>
+          <li id="Hayden-Scott" onclick="getText('Hayden-Scott')">Hayden Scott</li>
+          <li id="Iris-Rose" onclick="getText('Iris-Rose')">Iris Rose</li>
+          <li id="Tony-Rhodes" onclick="getText('Tony-Rhodes')">Tony Rhodes</li>
+        </ul>
+      </div>
+
+        <!--div class="page-item" id="student-list-icon">
           <i class="fa fa-bars" style="font-size:35px; margin-left: 10px; color:black; text-shadow:2px 2px 4px grey;" ></i>
         </div>
 
@@ -31,7 +55,7 @@
             <li id="Iris-Rose" onclick="getText('Iris-Rose')">Iris Rose</li>
             <li id="Tony-Rhodes" onclick="getText('Tony-Rhodes')">Tony Rhodes</li>
           </ul>
-        </div>
+        </div-->
 
         <div class="page-item" id="task-title">
             <h2>Assignment 1</h2>
@@ -131,4 +155,10 @@
 <script src="{{ url_for('static', filename='js/comparison.js')}}"></script>
 <script src="{{ url_for('static', filename='js/language_checks.js')}}"></script>
 
+<script>
+  function showList(x) {
+    x.classList.toggle("change");
+    document.getElementById("student-list").classList.toggle("show");
+  }
+</script>
 </html>
