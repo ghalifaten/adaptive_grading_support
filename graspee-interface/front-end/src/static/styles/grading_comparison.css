@@ -358,3 +358,17 @@ input[type=submit]#submit-grade {
 .change .bar3 {
     transform: translate(0, -11px) rotate(45deg);
 }
+
+.btn#submit-grade {
+    margin-top: 20px;
+    margin-left: 560px;
+    margin-bottom: 20px;
+}
+
+.btn#clear {
+    background-color: rgba(119, 136, 153, 0.726);
+    border: none;
+    transform: translate(500px, 0);
+    margin-bottom: 20px;
+
+}

@@ -112,6 +112,13 @@ function getText(student_id){
 
 function getComparison() {
     var student = document.getElementById("student-select").value;
+    if ( student == "") {
+        document.getElementById("compare-text-body").innerHTML = ""
+        document.getElementById("compare-feedback").innerHTML = ""
+        document.getElementById("compare-grade").innerHTML = ""
+        document.getElementById("compare-metrics").innerHTML = ""
+        return ;
+    }
     document.getElementById("compare-text-body").innerHTML = texts[student]
     document.getElementById("compare-feedback").innerHTML = "<div style='height: 100%; width: 100%; background-color: antiquewhite; border: 1px solid lightgray; border-radius: 6px; padding: 5px;'>" + feedbacks[student] + "</div>"
     document.getElementById("compare-grade").innerHTML = "<p style='font-weight:bold; font-size: 25px;'>Grade: " + grades[student] + "</p>"

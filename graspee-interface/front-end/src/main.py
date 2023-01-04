@@ -166,9 +166,7 @@ def grade_compare():
             for m in mistakes:
                 orig = orig.replace(m, '<span style="color: red">'+m+'</span>')
             highlighted_text += orig + '. ' 
-        print()
-        print(corrected_batches)
-        print()
+
         """
         Grammar check
         """

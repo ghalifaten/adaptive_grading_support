@@ -22,7 +22,7 @@ let spBtnClicked = 1
               if (spBtnClicked == 1) {
                 document.getElementById("metrics-spelling").innerHTML = 
                               "<span style='font-weight:bold; font-size: 25px;'>Spelling: </span> "+
-                              (mistakesCount/wordCount*100).toFixed(2) + '%.'                           
+                              (100 - mistakesCount/wordCount*100).toFixed(2) + '%.'                           
                 spBtnClicked = 0
               } else {
                 textElement.innerHTML = originalText 
@@ -73,7 +73,7 @@ let grBtnClicked = 1
                       const faults = hightlightGrammarlyIncorrectSentences()
                       document.getElementById("metrics-grammar").innerHTML = 
                                     "<span style='font-weight:bold; font-size: 25px;'>Grammar: </span> "+
-                                    (faults/sentCount*100).toFixed(2) + '%.' 
+                                    (100 - faults/sentCount*100).toFixed(2) + '%.' 
                       grBtnClicked = 0
                     } else {
                       textElement.innerHTML = originalText;
