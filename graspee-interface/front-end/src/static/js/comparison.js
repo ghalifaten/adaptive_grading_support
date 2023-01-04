@@ -1,18 +1,39 @@
-const texts = {"Faith-Hayes": "helo. This text havve som mistakes. Comon mistakes are coulors, recieve, prettyly, etc. won't",
+const texts = {"Faith-Hayes": "Malaria is a infectious disease caused by parasites that are transmitted to peoples throu female Anopheles mosquitoes. Each year over half a billion \people will become infected with malaria, with rughly 80% of them living in Sub-Saharan africa. Nearly half a million people die of malaria every year, most of them young children\
+under the age of five. Unlike many other infectious diseases, the death toll for malaria is rising. Wile there have been many programs designed to improove acces to malaria treatment, the best way to reducing the impact of malaria in Sub-Saharan Africa is to focus on reducing the number of people who contract the diseese in the first place rather than waiting to treat\
+the disease after the person has already infected. There are multiple drogs available to treet malaria, and many of them work well and save lives, but malaria eradication programs that \
+focus too much on them and not enough on prevention haven't seen long-term success in Sub-Saharan Africa. A major program to combat malaria was WHO's global malaria eradication \
+programme. Started in 1955, it had a goal of eliminating malaria in africa within the next ten years. Based upon previously succesful programs in Brezil and the United State, \
+the program focused mainly on vector controle. This included widely distributing chloroquine and spraying large amounts of DDT. More than one billions dollar was spent trying to \
+abolish Malaria. However, the program suffered from many problems and in 1969, WHO was forced to admit that the program had not succeeded in eradicating Malaria. The number of people\
+in Sub-Saharan Africa who contracted malaria as well as the number of malaria deaths had actually increased over 10% during the time the program was active. One of the major reasons for the failure of the project was that it set uniform strategies and policies. By failing to consider variations between governments, geography, and \
+infrastructure, the program was not nearly as succesfull as it could have been. Sub-Saharan Africa has neither the money nor the infrastructure too support such an elaborate program, \
+and it couldn't be run the way it was ment to. Most African countries don't have the resources to send all their people to doctors and get shots, nor can they afford to clear wetlands\
+or other malaria prone areas. the continent's spending per person for eradicating malaria was just a quarter of what Brezil spent. Sub-Saharan Africa simply can't rely on a plan that \
+requires more money, infrastructure, and expertise than they have to spare. \
+Additionally, the widespread use of chloroquine has created drug resistant parasites which are now plaguing Sub-Saharan Africa. Because cloroquine was used widely but inconsistently, \
+mosquitoes developed resistance, and chloroquine is now nearly completely ineffective in Sub-Saharan Africa, with over 95% of mosquitoes resistant to it. As a result, newer, more \
+expensive drugs need to be used to prevent and treat malaria, which further drives up the coast of malaria treatment for a region that can ill afford it. Instead of developing plans to treat malaria after the infection has incurred, programs should focus on preventing infection from occurring in the first place. Not only is this plan \
+cheaper and more effective, reducing the number of people who contract malaria also reduces loss of work/school days wich can further bring down the productivity of the region. One of the cheapest and most effective ways of preventing malaria is to implement insecticide-treated bed nets (ITNs). These nets provide a protective barrier around the person or \
+people using them. While untreated bed nets are still helpful, those treated with insecticides are much more useful because they stop mosquitoes from biting people through the nets, \
+and they help reduce mosquito populations in a community, thus helping people who don't even own bed nets. Bed nets are also very effective because most mosquito bites occur while \
+the person is sleeping, so bed nets would be able to drastically reduce the number of transmissions during the night. In fact, transmission of malaria can be reduced by as much as 90% \
+in areas where the use of ITNs is widespread. Because money is so scarce in Sub-Saharan Africa, the low cost is a great benefit and a major reason why the program is so successful. \
+Bed nets cost roughly 2 USD to make, last several years, and can protect too adults. Studies have shown that, for every 100-1000 more nets are being used, one less child dies of malaria. \
+With an estimated 300 million people in Africa not being protected by mosquito nets, there's the potential to save three millions lives by spending just a few dollars per person. \
+Reducing the number of people who contract malaria would also reduce poverty levels in Africa significantly, thus improving other aspects of society like education levels and the economy. \
+Vector control is more effective than treatment strategies because it mean fewer people are getting sick. When fewer people get sick, the working population is stronger as a whole \
+because people are not put out of work from malaria, nor are they caring for sick relatives. Malaria-afflicted families can typically only harvest 40% of the crops that healthy families \
+can harvest. Additionally, a family with members who have malaria spends roughly a quarter of its income treatment, not including the loss of work they also must deal with due to the \
+illness. It's estimated that malaria costs Africa 12 billions USD in lost income every year. A strong working population creates a stronger economy, wich Sub-Saharan Africa is in \
+desperate need of? The question is how to do that. How to apply it to reality.",
 
-"Hayden-Scott": "As online learning becomes more common and more and more resources are converted to digital form, some people have suggested that public libraries should be shut down and, in their place, everyone should be given an iPad with an e-reader subscription.\
+"Hayden-Scott": "As online learning becomes more common and more and more resources are converted to digital form, some people have suggested that public libraries should be shut down and, in their place, everyone should be given an iPad with an e-reader subscription. \
 Proponents of this idea state that it will save local cities and towns money because libraries are expensive to maintain. They also believe it will encourage more people to read because they won't have to travel to a library to get a book; they can simply click on what \
-they want to read and read it from wherever they are. They could also access more materials because libraries won't have to buy physical copies of books; they can simply rent out as many digital copies as they need.\
+they want to read and read it from wherever they are. They could also access more materials because libraries won't have to buy physical copies of books; they can simply rent out as many digital copies as they need. \
 However, it would be a serious mistake to replace libraries with tablets. First, digital books and resources are associated with less learning and more problems than print resources. A study done on tablet vs book reading found that people read 20-30% slower on tablets, \
 retain 20% less information, and understand 10% less of what they read compared to people who read the same information in print. Additionally, staring too long at a screen has been shown to cause numerous health problems, including blurred vision, dizziness, dry eyes, \
 headaches, and eye strain, at much higher instances than reading print does. People who use tablets and mobile devices excessively also have a higher incidence of more serious health issues such as fibromyalgia, shoulder and back pain, carpal tunnel syndrome, and muscle\
- strain.", /**I know that whenever I read from my e-reader for too long, my eyes begin to feel tired and my neck hurts. We should not add to these problems by giving people, especially young people, more reasons to look at screens.\
- Second, it is incredibly narrow-minded to assume that the only service libraries offer is book lending. Libraries have a multitude of benefits, and many are only available if the library has a physical location. Some of these benefits include acting as a quiet study space,\
-  giving people a way to converse with their neighbors, holding classes on a variety of topics, providing jobs, answering patron questions, and keeping the community connected. One neighborhood found that, after a local library instituted community events such as play times \
-  for toddlers and parents, job fairs for teenagers, and meeting spaces for senior citizens, over a third of residents reported feeling more connected to their community. Similarly, a Pew survey conducted in 2015 found that nearly two-thirds of American adults feel that \
-  closing their local library would have a major impact on their community. People see libraries as a way to connect with others and get their questions answered, benefits tablets can’t offer nearly as well or as easily.\
- While replacing libraries with tablets may seem like a simple solution, it would encourage people to spend even more time looking at digital screens, despite the myriad issues surrounding them. It would also end access to many of the benefits of libraries that people have \
- come to rely on. In many areas, libraries are such an important part of the community network that they could never be replaced by a simple object. */
+ strain.",
 
 "Iris-Rose": "Do commanded an shameless we disposing do. Indulgence ten remarkably nor are impression out. Power is lived means oh every in we quiet. Remainder provision an in intention. Saw supported too joy promotion engrossed propriety. Me till like it sure no sons.Remember \
 outweigh do he desirous no cheerful. Do of doors water ye guest. We if prosperous comparison middletons at. Park we in lose like at no. An so to preferred convinced distrusts he determine. In musical me my placing clothes comfort pleased hearing. Any residence you satisfied and rapturous certainty two. \
@@ -80,9 +101,13 @@ const metrics = {"Faith-Hayes":  { spelling: "90%", grammar: "90%", argumentatio
 /***********************************/
 function getText(student_id){
     var student = document.getElementById(student_id).textContent;
-    console.log(student_id)
-    document.getElementById("task-title").innerHTML = "<h2>Assignment 1 -" + student + "</h2>"
+    document.getElementById("task-title").innerHTML = "<h2>Assignment 1 - " + student + "</h2>"
     document.getElementById("assignment-text-body").innerHTML = texts[student_id]
+    document.getElementById("metrics").innerHTML = '<div class="page-item" id="metrics">\
+                                                    <div id="metrics-spelling"><span style="font-weight:bold; font-size: 25px;">Spelling:</span></div>\
+                                                    <div id="metrics-grammar"><span style="font-weight:bold; font-size: 25px;">Grammar:</span></div>\
+                                                    <div id="metrics-argumentation"><span style="font-weight:bold; font-size: 25px;">Argumentation:</span></div>\
+                                                    </div>'
     }
 
 function getComparison() {
@@ -90,7 +115,6 @@ function getComparison() {
     document.getElementById("compare-text-body").innerHTML = texts[student]
     document.getElementById("compare-feedback").innerHTML = "<div style='height: 100%; width: 100%; background-color: antiquewhite; border: 1px solid lightgray; border-radius: 6px; padding: 5px;'>" + feedbacks[student] + "</div>"
     document.getElementById("compare-grade").innerHTML = "<p style='font-weight:bold; font-size: 25px;'>Grade: " + grades[student] + "</p>"
-    console.log(student)
 
     document.getElementById("compare-metrics").innerHTML = "<span style='font-weight:bold; font-size: 25px;'>Spelling:</span> " + metrics[student]["spelling"] + "<br> \
     <span style='font-weight:bold; font-size: 25px;'>Grammar:</span> " + metrics[student]["grammar"] + "<br> \
