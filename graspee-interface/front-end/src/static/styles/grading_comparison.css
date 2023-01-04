@@ -44,7 +44,6 @@ h2 {
 
 div {
     margin: auto;
-    /*padding: 1%;*/
 }
 
 textarea {
@@ -146,6 +145,7 @@ i:active {
 }
 
 li {
+    padding: 0;
     cursor: pointer;
 }
 
@@ -156,6 +156,17 @@ li:hover {
 li:active {
     opacity: 1;
 }
+
+.sub-list {
+    padding: 0;
+    cursor: pointer;
+}
+
+
+.sub-list:active {
+    opacity: 1;
+}
+
 /***********GRADING-VIEW**************/
 .page-container {
     display: grid;
@@ -182,14 +193,14 @@ li:active {
     text-align: center;
 }
 
-.page-item#student-list-icon{
+.page-item#dropdown-icon{
     grid-column-start: vline1;
     grid-column-end: vline2;
     grid-row-start: hline2;
     grid-row-end: hline3;
 }
 
-.page-item#student-list{
+.page-item#dropdown{
     grid-column-start: vline1;
     grid-column-end: vline2;
     grid-row-start: hline3;
@@ -329,12 +340,17 @@ input[type=submit]#submit-grade {
     display: block !important;
 }
 
+div#students-names {
+    display: none;
+}
+
 .dropdown {
     display: none;
     background-color: #f1f1f1;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
+
 .dropdown-icon-container {
     display: inline-block;
     cursor: pointer;
