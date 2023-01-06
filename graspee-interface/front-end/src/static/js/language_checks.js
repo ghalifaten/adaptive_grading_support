@@ -6,7 +6,7 @@ let spBtnClicked = 1
     const originalText = textElement.innerText
     const wordCount = originalText.match(/(\w+)/g).length;
     $.ajax({
-            url: location.origin + "/grading-comparison",
+            url: location.origin,
             type: 'POST',
             data: JSON.stringify({
                 "original_text": originalText
@@ -14,6 +14,7 @@ let spBtnClicked = 1
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
+              console.log("here is SpellCheck. I received data.")
               var highlightedText = response.spell_check_result;
               var mistakesCount = response.spell_check_mistakes;
 
@@ -43,7 +44,7 @@ let grBtnClicked = 1
     const sentCount = originalText.match(/[\w|\)][.?!](\s|$)/g).length;
     var innerHTMLContent = "";
     $.ajax({
-            url: location.origin + "/grading-comparison",
+            url: location.origin,
             type: 'POST',
             data: JSON.stringify({
                 "original_text": originalText
@@ -51,6 +52,7 @@ let grBtnClicked = 1
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
+              console.log("here is grammarCheck. I received data.")
                     var results = response.grammar_check_results; //array
                     function hightlightGrammarlyIncorrectSentences() {
                       var faults = 0;
@@ -93,7 +95,7 @@ let argBtnClicked = 1;
     const originalText = textElement.innerText;
     var innerHTMLContent = "";
     $.ajax({
-            url: location.origin + "/grading-comparison",
+            url: location.origin,
             type: 'POST',
             data: JSON.stringify({
                 "original_text": originalText
@@ -101,6 +103,7 @@ let argBtnClicked = 1;
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
+              console.log("here is argCheck. I received data.")
                     var predictions = response.predictions; //array
                     var pred;
                     function hightlightClaimsAndPremises() {
