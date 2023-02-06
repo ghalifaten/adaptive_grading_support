@@ -154,6 +154,7 @@ def quickform(model_name, model_type = "bert", model_huggingface_hub_name = "ber
     print("QuickFormer - Evaluating the model...")
     evaluate_model(model, model_name, classified_categories, test_df, num_labels)
     print("Thank you for using QuickFormer!")
+    return model
 
 
 if __name__ == "__main__":
