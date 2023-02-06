@@ -128,7 +128,9 @@ let argBtnClicked = 1;
                       const claims = r[0]; const premises = r[1];
                       document.getElementById("metrics-argumentation").innerHTML = 
                                     "<span style='font-weight:bold; font-size: 25px;'>Argumentation: </span> "+
-                                    premises + ' premises and ' + claims + ' claims.' 
+                                    premises + ' claims and ' + claims + ' premises.' //Here we flip claims and premises: we call those labeled as claim "premise" and vice-versa, 
+                                                                                      //because the definition of the two terms is different between what is in the dataset and what
+                                                                                      //is usually used in the ML4ED lab.
                       argBtnClicked = 0
                     } else {
                       textElement.innerHTML = originalText;
