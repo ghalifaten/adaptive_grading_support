@@ -53,6 +53,7 @@ def uncommonWords(text, correct):
     return [word for word in count if count[word] > 0 ]
 
 ## TEACHER INTERFACE ##
+## MAIN VIEW ##
 @app.route('/', methods=['GET', 'POST'])
 def grade_compare():
     if request.method == 'GET':
@@ -123,6 +124,7 @@ def grade_compare():
         predictions = text_classifier(sentences)
         for pred, sent in zip(predictions, sentences): #append sentences to their labels
             pred['sentence'] = sent
+        
 
         print("\n ARGUMENTATION CHECK IS DONE: ", time.time() - s4, "\n")
 
