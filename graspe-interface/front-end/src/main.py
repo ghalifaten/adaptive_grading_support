@@ -60,64 +60,78 @@ def grade_compare():
 
     if request.method == 'POST':
         original_text = request.get_json()['original_text']
-        """
-        Spelling check
-        """
-        #passing batches of sentences instead of large text avoids text truncation when text is too long for the model.
-        batches = original_text.split('. ')
-        corrected_batches = checker.correct_strings(batches)
-        #Neuspell separates words from punctuation and inserts space before each in the returned result. So we fix that here to make the corrected text prettier and easier to compare to the original.
-        for i in range(len(corrected_batches)):
-            sentence = corrected_batches[i]
-            sentence = sentence.replace(' , ', ', ')\
-                                .replace(' ; ', '; ')\
-                                .replace(' - ', '-')\
-                                .replace(" ' ", "'")\
-                                .replace(' ! ', '! ')\
-                                .replace(' ? ', '? ')\
-                                .replace(' % ', '% ')\
-                                .replace(' @ ', '@')\
-                                .replace(' ( ', ' (')\
-                                .replace(' ) ', ') ')\
-                                .replace(' .', '.')
-            corrected_batches[i] = sentence
-        #Compare between each couple of sentences (original and corrected) to find uncommon words, aka spelling mistakes
-        mistakes_nbr = 0
-        highlighted_text = ''
 
-        for (orig, corr) in zip(batches, corrected_batches):
-            mistakes = uncommonWords(orig, corr)
-            mistakes_nbr += len(mistakes)
-            for m in mistakes:
-                orig = orig.replace(m, '<span style="color: red">'+m+'</span>')
-            highlighted_text += orig + '. ' 
+        if request.get_json()['check_type'] == "SPELLING":
+            """
+            Spelling check
+            """
+            #passing batches of sentences instead of large text avoids text truncation when text is too long for the model.
+            batches = original_text.split('. ')
+            corrected_batches = checker.correct_strings(batches)
+            #Neuspell separates words from punctuation and inserts space before each in the returned result. So we fix that here to make the corrected text prettier and easier to compare to the original.
+            for i in range(len(corrected_batches)):
+                sentence = corrected_batches[i]
+                sentence = sentence.replace(' , ', ', ')\
+                                    .replace(' ; ', '; ')\
+                                    .replace(' - ', '-')\
+                                    .replace(" ' ", "'")\
+                                    .replace(' ! ', '! ')\
+                                    .replace(' ? ', '? ')\
+                                    .replace(' % ', '% ')\
+                                    .replace(' @ ', '@')\
+                                    .replace(' ( ', ' (')\
+                                    .replace(' ) ', ') ')\
+                                    .replace(' .', '.')
+                corrected_batches[i] = sentence
+            #Compare between each couple of sentences (original and corrected) to find uncommon words, aka spelling mistakes
+            mistakes_nbr = 0
+            highlighted_text = ''
 
-        """
-        Grammar check
-        """
-        sentences = original_text.split('. ')
-        sentences = list(filter(None, sentences))
-        indices = list(map(lambda sent: bert.bert_checker(model_loaded, tokenizer, sent), sentences))
-        indices = list(map(lambda index: index.item(), indices))
+            for (orig, corr) in zip(batches, corrected_batches):
+                mistakes = uncommonWords(orig, corr)
+                mistakes_nbr += len(mistakes)
+                for m in mistakes:
+                    orig = orig.replace(m, '<span style="color: red">'+m+'</span>')
+                highlighted_text += orig + '. ' 
 
-        grammar_check_results = [(sentences[i], indices[i]) for i in range(0, len(sentences))] #merge sentences and corresponding indices in list of tuples to keep order of sentences when sent to JavaScript
+            print("\nSpelling check done.\n")
+            data = {
+                'spell_check_result': highlighted_text,
+                'spell_check_mistakes': mistakes_nbr,
+            }
 
-        """
-        Argumentation check
-        """
-        sentences = original_text.split('. ')
-        predictions = text_classifier(sentences)
-        for pred, sent in zip(predictions, sentences): #append sentences to their labels
-            pred['sentence'] = sent
         
+        if request.get_json()['check_type'] == "GRAMMAR":
+            """
+            Grammar check
+            """
+            sentences = original_text.split('. ')
+            sentences = list(filter(None, sentences))
+            indices = list(map(lambda sent: bert.bert_checker(model_loaded, tokenizer, sent), sentences))
+            indices = list(map(lambda index: index.item(), indices))
 
-        #-------
-        data = {
-            'spell_check_result': highlighted_text,
-            'spell_check_mistakes': mistakes_nbr,
-            'grammar_check_results':grammar_check_results,
-            'predictions': predictions,
-        }
+            grammar_check_results = [(sentences[i], indices[i]) for i in range(0, len(sentences))] #merge sentences and corresponding indices in list of tuples to keep order of sentences when sent to JavaScript
+
+            print("\nGrammar check done.\n")
+            data = {
+                'grammar_check_results':grammar_check_results
+            }
+
+        if request.get_json()['check_type'] == "ARGUMENTATION":
+            """
+            Argumentation check
+            """
+            sentences = original_text.split('. ')
+            predictions = text_classifier(sentences)
+            for pred, sent in zip(predictions, sentences): #append sentences to their labels
+                pred['sentence'] = sent
+            
+            print("\nArgumentation check done.\n")
+            #-------
+            data = {
+                'predictions': predictions,
+            }
+
 
         return jsonify(data)
 

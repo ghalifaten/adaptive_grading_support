@@ -9,12 +9,12 @@ let spBtnClicked = 1
             url: location.origin,
             type: 'POST',
             data: JSON.stringify({
-                "original_text": originalText
+                "original_text": originalText,
+                "check_type": "SPELLING"
             }),
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
-              console.log("here is SpellCheck. I received data.")
               var highlightedText = response.spell_check_result;
               var mistakesCount = response.spell_check_mistakes;
 
@@ -47,12 +47,12 @@ let grBtnClicked = 1
             url: location.origin,
             type: 'POST',
             data: JSON.stringify({
-                "original_text": originalText
+                "original_text": originalText,
+                "check_type": "GRAMMAR"
             }),
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
-              console.log("here is grammarCheck. I received data.")
                     var results = response.grammar_check_results; //array
                     function hightlightGrammarlyIncorrectSentences() {
                       var faults = 0;
@@ -98,12 +98,12 @@ let argBtnClicked = 1;
             url: location.origin,
             type: 'POST',
             data: JSON.stringify({
-                "original_text": originalText
+                "original_text": originalText,
+                "check_type": "ARGUMENTATION"
             }),
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
-              console.log("here is argCheck. I received data.")
                     var predictions = response.predictions; //array
                     var pred;
                     function hightlightClaimsAndPremises() {
